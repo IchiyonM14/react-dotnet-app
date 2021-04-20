@@ -1,6 +1,6 @@
 using System;
 
-namespace react_net_test
+namespace RecipesProject
 {
     public class WeatherForecast
     {
