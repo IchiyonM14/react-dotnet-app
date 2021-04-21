@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState} from 'react';
 import CreatableSelect from 'react-select/creatable';
 import Recipe from "./recipe";
 import AddRecipe from "./add-recipe";
 import Modal from "./modal";
 
 const Home = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleModal = () => {
+        setIsOpen(prevIsOpen => {
+            return !prevIsOpen;
+        });
+    };
+
     const handleMultiselectChange = (newValue, actionMeta) => {
         console.group('Value Changed');
         console.log(newValue);
@@ -21,10 +29,11 @@ const Home = () => {
                 notes="Notes for the recipe"
                 isCompleted
             />
-            <AddRecipe />
+            <AddRecipe onClick={toggleModal} />
             <Modal
                 title="Recipe:"
-                isOpen
+                isOpen={isOpen}
+                onClose={toggleModal}
             >
                 <p>Info about the recipe</p>
                 <p>Info about the recipe</p>
