@@ -41,6 +41,16 @@
     flex-direction: row;
     justify-content: flex-start;
   }
+  &-items{
+    list-style: none;
+  }
+  &-item{
+    &::before {
+      content: '\2014';
+      margin-left: -20px;
+      position: absolute;
+    }
+  }
   &:hover {
     .Recipe-delete {
       display: block;

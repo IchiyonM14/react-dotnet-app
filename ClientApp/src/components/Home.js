@@ -1,16 +1,36 @@
 import React, { Component } from 'react';
+import CreatableSelect from 'react-select/creatable';
 import Recipe from "./recipe";
 import AddRecipe from "./add-recipe";
+import Modal from "./modal";
 
 export class Home extends Component {
   static displayName = Home.name;
+
+  handleMultiselectChange = (newValue, actionMeta) => {
+    console.group('Value Changed');
+    console.log(newValue);
+    console.log(`action: ${actionMeta.action}`);
+    console.groupEnd();
+  }
 
   render() {
     return (
       <div>
         <h1>Hello, world!</h1>
+
         <Recipe name="Guacamole" notes="Notes for the recipe" isCompleted />
         <AddRecipe />
+        <Modal title="Recipe:" isOpen>
+          <p>Info about the recipe</p>
+          <p>Info about the recipe</p>
+          <p>Info about the recipe</p>
+          <CreatableSelect
+            isMulti
+            onChange={this.handleMultiselectChange}
+          />
+        </Modal>
+
         <p>Welcome to your new single-page application, built with:</p>
         <ul>
           <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
