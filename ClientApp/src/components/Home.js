@@ -6,6 +6,10 @@ import Modal from "./modal";
 
 const Home = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [ingredients, setIngredients] = useState([{}]);
+    const [recipeName, setRecipeName] = useState('');
+    const [recipeNotes, setRecipeNotes] = useState('');
+    const formClasses = 'form-control mb-3';
 
     const toggleModal = () => {
         setIsOpen(prevIsOpen => {
@@ -13,12 +17,13 @@ const Home = () => {
         });
     };
 
-    const handleMultiselectChange = (newValue, actionMeta) => {
-        console.group('Value Changed');
-        console.log(newValue);
-        console.log(`action: ${actionMeta.action}`);
-        console.groupEnd();
+    const handleMultiselectChange = (newValue) => {
+        setIngredients(newValue);
     }
+
+    const onChangeInput = onChange => ({ target: { value } }) => {
+        onChange(value);
+    };
 
     return (
         <div>
@@ -35,12 +40,41 @@ const Home = () => {
                 isOpen={isOpen}
                 onClose={toggleModal}
             >
-                <p>Info about the recipe</p>
-                <p>Info about the recipe</p>
-                <p>Info about the recipe</p>
+                <label
+                    className="mb-0"
+                    htmlFor="recipe-name"
+                >
+                    Name:
+                </label>
+                <input
+                    id="recipe-name"
+                    className={formClasses}
+                    onChange={onChangeInput(setRecipeName)}
+                    value={recipeName}
+                />
+                <label
+                    className="mb-0"
+                    htmlFor="recipe-notes"
+                >
+                    Notes:
+                </label>
+                <textarea
+                    id="recipe-notes"
+                    className={formClasses}
+                    onChange={onChangeInput(setRecipeNotes)}
+                    value={recipeNotes}
+                />
+                <label
+                    className="mb-0"
+                    htmlFor="recipe-ingredients"
+                >
+                    Ingredients:
+                </label>
                 <CreatableSelect
+                    id="recipe-ingredients"
                     isMulti
                     onChange={handleMultiselectChange}
+                    options={ingredients}
                 />
             </Modal>
 
