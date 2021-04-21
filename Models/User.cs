@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace RecipesProject.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class User : IdentityUser
     {
+        public virtual ICollection<Recipe> Recipes { get; set; }
     }
 }
