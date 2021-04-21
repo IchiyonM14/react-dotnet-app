@@ -1,9 +1,38 @@
-import React, { Fragment } from 'react';
+import React, { useContext, Fragment } from 'react';
+import { RecipesContext } from '../../contexts/recipes/RecipesContext';
 import Button from "../button";
 import PropTypes from 'prop-types';
 
+const PREPARATIONS = [
+    {
+        name: 'Guacamole',
+        date: '19/04/2021',
+        isPrepared: false
+    },
+    {
+        name: 'Guacamole',
+        date: '12/04/2021',
+        isPrepared: false
+    },
+    {
+        name: 'Guacamole',
+        date: '30/03/2021',
+        isPrepared: true
+    },
+    {
+        name: 'Guacamole',
+        date: '24/03/2021',
+        isPrepared: false
+    },
+];
+
 const Recipe = (props) => {
     const { name, notes, items } = props;
+    const recipesContext = useContext(RecipesContext);
+
+    const showPreparations = () => {
+        recipesContext.setRecipes(PREPARATIONS);
+    };
 
     const renderItems = () => {
         if (!items || !items.length) return;
@@ -28,7 +57,16 @@ const Recipe = (props) => {
             <p className="Recipe-notes">{notes}</p>
             { renderItems()}
             <div className="Recipe-controls">
-                <Button className="plain pl-0"><i class="fas fa-pencil-alt mr-2"></i>Edit</Button>
+                <Button
+                    className="primary"
+                    onClick={showPreparations}
+                >
+                    View
+                </Button>
+                <Button className="plain">
+                    <i class="fas fa-pencil-alt mr-2" />
+                    Edit
+                </Button>
             </div>
         </div>
     )

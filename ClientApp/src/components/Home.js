@@ -1,8 +1,9 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import Recipe from "./recipe";
 import AddRecipe from "./add-recipe";
 import Modal from "./modal";
+import PreparationPanel from '../components/preparation-panel';
 
 const Home = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +34,7 @@ const Home = () => {
                 isCompleted
             />
             <AddRecipe onClick={toggleModal} />
+            <PreparationPanel />
             <Modal
                 title="Recipe:"
                 isOpen={isOpen}
