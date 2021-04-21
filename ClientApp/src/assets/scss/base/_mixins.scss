@@ -1,0 +1,8 @@
+@mixin pointer-events {
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
+    @content;
+  }
+}

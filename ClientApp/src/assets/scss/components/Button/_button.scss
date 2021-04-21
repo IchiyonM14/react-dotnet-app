@@ -1,0 +1,40 @@
+.Button {
+  border: none;
+  border-radius: 16px;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 700;
+  height: 28px;
+  padding-left: 25px;
+  padding-right: 25px;
+  text-align: center;
+  @include pointer-events {
+    border: none;
+    box-shadow: none;
+  }
+  &.primary {
+    background-color: $primary-color;
+    border: 1px solid $primary-color;
+    color: $white;
+    @include pointer-events {
+      background-color: lighten($color: $primary-color, $amount: 15%);
+      transition: color 0.35s ease, background-color 0.35s ease;
+    }
+  }
+  &.clear {
+    background-color: $white;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    @include pointer-events {
+      background-color: $primary-color;
+      color: $white;
+      transition: color 0.35s ease, background-color 0.35s ease;
+    }
+  }
+  &.plain {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    color: $gray-text;
+  }
+}
