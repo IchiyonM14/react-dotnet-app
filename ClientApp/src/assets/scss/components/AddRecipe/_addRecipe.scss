@@ -1,0 +1,23 @@
+.AddRecipe{
+    align-items: center;
+    background-color: transparent;
+    border: 1px dashed $light-gray;
+    box-shadow: none;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    font-weight: 700;
+    height: 80px;
+    justify-content: center;
+    width: 100%;
+
+    @include pointer-events {
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    &-icon {
+        color: $primary-color;
+        margin-right: 8px;
+    }
+}
