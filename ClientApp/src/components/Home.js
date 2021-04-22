@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import Recipe from "./recipe";
 import AddRecipe from "./add-recipe";
@@ -7,18 +7,34 @@ import Button from "./button";
 import { fetchRecipes, createRecipe } from "../services/recipes";
 import PreparationPanel from '../components/preparation-panel';
 
+import { PreparationsContext } from '../contexts/recipes/RecipesContext';
+
 const Home = () => {
     const [recipes, setRecipes] = useState([])
     const [isOpen, setIsOpen] = useState(false);
     const [ingredients, setIngredients] = useState([{}]);
     const [recipeName, setRecipeName] = useState('');
     const [recipeNotes, setRecipeNotes] = useState('');
+    const preparationsContext = useContext(PreparationsContext);
+
     const formClasses = 'form-control mb-3';
 
     const loadRecipes = async () => {
         const { data } = await fetchRecipes();
-        if(data) {
+        if (data) {
             setRecipes(data);
+        }
+    }
+
+    const reloadData = async (currentRecipeId) => {
+        const { data } = await fetchRecipes();
+        if (data) {
+            setRecipes(data);
+            const currentRecipe = data.find((r) => r.id === currentRecipeId);
+
+            if (currentRecipeId) {
+                preparationsContext.setPreparations(currentRecipe.preparations);
+            }
         }
     }
 
@@ -57,11 +73,11 @@ const Home = () => {
     }
 
     const saveRecipe = async () => {
-        if(!recipeName || !recipeNotes) return;
+        if (!recipeName || !recipeNotes) return;
 
         const { error } = await createRecipe({ Name: recipeName, Description: recipeNotes });
-        
-        if(!error) {
+
+        if (!error) {
             loadRecipes();
         }
     }
@@ -76,7 +92,7 @@ const Home = () => {
                 {renderRecipes()}
             </div>
             <AddRecipe onClick={toggleModal} />
-            <PreparationPanel />
+            <PreparationPanel reloadData={reloadData} />
             <Modal
                 title="Recipe:"
                 isOpen={isOpen}

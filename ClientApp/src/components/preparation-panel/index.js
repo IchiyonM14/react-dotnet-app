@@ -4,7 +4,9 @@ import Button from '../button';
 import Checkbox from '../checkbox';
 import PreparationModal from '../preparation-modal';
 
-const PreparationPanel = () => {
+const PreparationPanel = (props) => {
+    const { reloadData } = props;
+
     const [isOpen, setIsOpen] = useState(false);
     const [currentPrep, setCurrentPrep] = useState();
     const { list: preparations, recipeData } = useContext(PreparationsContext);
@@ -57,6 +59,7 @@ const PreparationPanel = () => {
                 recipeData={recipeData}
                 toggle={toggleModal}
                 preparation={currentPrep}
+                reloadData={reloadData}
             />
         </div>
     );

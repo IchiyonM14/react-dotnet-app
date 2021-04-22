@@ -5,7 +5,7 @@ import Modal from '../modal';
 import { createPreparation, updatePreparation } from "../../services/preparations";
 
 const PreparationModal = props => {
-    const { isOpen, recipeData, toggle, preparation } = props;
+    const { isOpen, recipeData, toggle, preparation, reloadData } = props;
     const [prepStatus, setPrepStatus] = useState({});
 
     useEffect(() => {
@@ -50,12 +50,13 @@ const PreparationModal = props => {
 
         if (preparation && preparation.status) {
             await updatePreparation(preparation.id, { ...preparation, status: data });
+            await reloadData(recipeData.id);
             onClose();
-            return;
+        } else {
+            await createPreparation({ RecipeId: recipeData.id, Status: data });
+            await reloadData(recipeData.id);
+            onClose();
         }
-
-        await createPreparation({ RecipeId: recipeData.id, Status: data });
-        onClose();
     };
 
     const renderIngredients = () => {
