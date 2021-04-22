@@ -54,8 +54,10 @@ const Home = () => {
 
     return (
         <div className="Home">
-            <h1>Your Recipes:</h1>
-            <Button className="primary" onClick={toggleModal}>Add Recipe</Button>
+            <div className="Home-header">
+                <h1>Your Recipes:</h1>
+                <Button className="primary" onClick={toggleModal}>Add Recipe</Button>
+            </div>
             <div className="Home-recipes">
                 {renderRecipes()}
             </div>

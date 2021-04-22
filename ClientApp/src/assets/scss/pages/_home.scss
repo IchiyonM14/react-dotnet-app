@@ -1,7 +1,13 @@
 .Home {
     padding: 50px 0;
+    &-header{
+        margin-bottom: 50px;        
+    }
     &-recipes{
-        padding-bottom: 25px;
-        padding-top: 50px;
+        margin-bottom: 10px;
+        max-height: 500px;
+        overflow-y: scroll;        
+        padding-right: 10px;
+        scrollbar-width: thin;
     }
 }
