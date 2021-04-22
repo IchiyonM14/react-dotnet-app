@@ -1,33 +1,33 @@
 .PreparationPanel {
+  align-items: center;
+  background-color: $white;
+  border-left: 2px solid $gray;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  padding: 45px 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 300px;
+  z-index: 900;
+
+  &-list {
     align-items: center;
-    background-color: $white;
-    border-left: 2px solid $gray-border;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    justify-content: space-between;
-    padding: 45px 20px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 380px;
-    z-index: 900;
+    width: 100%;
+  }
 
-    &-list {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
+  &-title {
+    font-size: 24px;
+  }
 
-    &-title {
-        font-size: 24px;
-    }
-
-    &-recipe {
-        align-items: center;
-        border-bottom: 1px solid $gray-border;
-        display: flex;
-        padding: 10px;
-    }
+  &-recipe {
+    align-items: center;
+    border-bottom: 1px solid $gray-border;
+    display: flex;
+    padding: 10px;
+  }
 }

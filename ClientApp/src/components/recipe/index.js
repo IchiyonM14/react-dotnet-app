@@ -63,10 +63,6 @@ const Recipe = (props) => {
                 >
                     View
                 </Button>
-                <Button className="plain">
-                    <i class="fas fa-pencil-alt mr-2" />
-                    Edit
-                </Button>
             </div>
         </div>
     )
