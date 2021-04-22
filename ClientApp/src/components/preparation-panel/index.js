@@ -10,18 +10,26 @@ const PreparationPanel = () => {
     const { list: preparations, recipeData } = useContext(PreparationsContext);
 
     const toggleModal = () => {
+        setCurrentPrep(null);
         setIsOpen(prevIsOpen => {
             return !prevIsOpen;
         });
     };
 
+    const toggleModalForEdit = (prep) => () => {
+        setCurrentPrep(prep);
+        setIsOpen(prevIsOpen => {
+            return !prevIsOpen;
+        });
+    }
+
     const renderPreparations = () => {
         if(preparations.length === 0 || !recipeData) return;
         
         return preparations.map(p => {
-            const isPrepared = p.status.search('false') !== -1;
+            const isPrepared = p.status.search('false') === -1;
             return (
-                <button className="PreparationPanel-prep">
+                <button className="PreparationPanel-prep" onClick={toggleModalForEdit(p)}>
                     <Checkbox ignoreEvents checked={isPrepared} label={recipeData.name} />
                 </button>
             );
@@ -49,6 +57,7 @@ const PreparationPanel = () => {
                 recipeName={recipeData.name || "Recipe"}
                 toggle={toggleModal}
                 items={recipeData.items || []}
+                preparation={currentPrep}
             />
         </div>
     );

@@ -4,34 +4,33 @@ import Checkbox from '../checkbox';
 import Modal from '../modal';
 
 const PreparationModal = props => {
-    const { isOpen, recipeName, toggle, items, status } = props;
-    console.log(`items`, items);
+    const { isOpen, recipeName, toggle, items, preparation } = props;
     const [prepStatus, setPrepStatus] = useState({});
 
     useEffect(() => {
-        if(!status) {
+        if(!preparation || !preparation.status) {
             const newStatus = items.reduce((acc, i) => {
                 return { ...acc, [i.name]: false }
             }, {});
-            console.log(`newStatus`, newStatus);
+            
             setPrepStatus(newStatus);
         }
     }, [items]);
 
-    useEffect(() => {
-        if(status) {
-            const newStatus = JSON.parse(status);
+    useEffect(() => {        
+        if(preparation && preparation.status) {
+            //  Example value "{\"status1\":true,\"status2\":false}"
+            const newStatus = JSON.parse(preparation.status);
             setPrepStatus(newStatus);
         }
-    }, [status])
+    }, [preparation])
 
     const onCheckIngredient = (info) => {
         const { name, checked } = info;
         setPrepStatus((prev) => ({ ...prev, [name]: checked }));
     };
 
-    const renderIngredients = () => {
-        console.log(`prepStatus`, prepStatus);
+    const renderIngredients = () => {        
         if(prepStatus) {
             return Object.entries(prepStatus).map((itemStatus) => {
                 return (
