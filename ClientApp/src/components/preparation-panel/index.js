@@ -39,7 +39,7 @@ const PreparationPanel = (props) => {
     };
 
     return (
-        <div className="collapse show PreparationPanel">
+        <div className={`collapse show PreparationPanel ${!!recipeData ? '' : 'hidden'}`}>
             <div className="PreparationPanel-list">
                 <span className="PreparationPanel-title">
                     Preparations

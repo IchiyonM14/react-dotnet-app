@@ -8,7 +8,7 @@ const Recipe = (props) => {
     const {
         id,
         name,
-        notes, 
+        notes,
         items,
         preparations,
         reload,
@@ -24,8 +24,14 @@ const Recipe = (props) => {
     const onDelete = recipeId => async () => {
         const { error } = await deleteRecipe(recipeId);
 
-        if(!error)
+        if (!error) {
+            if (preparationsContext?.recipeData?.id === id) {
+                preparationsContext.setRecipe({});
+                preparationsContext.setPreparations([]);
+            }
+
             reload();
+        }
         else
             showErrorMessage();
     };
@@ -73,7 +79,7 @@ Recipe.defaultProps = {
     isCompleted: true,
     items: [],
     preparations: [],
-    showErrorMessage: () => {}
+    showErrorMessage: () => { }
 }
 
 Recipe.propTypes = {

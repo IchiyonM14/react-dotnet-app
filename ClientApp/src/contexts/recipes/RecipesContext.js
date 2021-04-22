@@ -13,7 +13,7 @@ export const PreparationsProvider = ({ children }) => {
     const addPreparation = (item) => {
         const newItems = [...list, item];
         setList(newItems);
-    };    
+    };
 
     const setRecipe = (recipe) => {
         setRecipeData(recipe);

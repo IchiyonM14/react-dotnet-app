@@ -57,7 +57,7 @@ const Home = () => {
             : '';
 
         setErrorMessage(message);
-        setShowError(prevShowError => ( !prevShowError ));
+        setShowError(prevShowError => (!prevShowError));
     };
 
     const handleMultiselectChange = (newValue) => {
@@ -89,7 +89,8 @@ const Home = () => {
     const saveRecipe = async () => {
         if (!recipeName || !recipeNotes) return;
 
-        const { error } = await createRecipe({ Name: recipeName, Description: recipeNotes });
+        const recipeItems = ingredients.map((i) => ({ name: i.value, description: i.value }));
+        const { error } = await createRecipe({ Name: recipeName, Description: recipeNotes, Items: recipeItems });
 
         if (!error) {
             loadRecipes();
