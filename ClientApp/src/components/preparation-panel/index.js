@@ -24,8 +24,8 @@ const PreparationPanel = () => {
     }
 
     const renderPreparations = () => {
-        if(preparations.length === 0 || !recipeData) return;
-        
+        if (preparations.length === 0 || !recipeData) return;
+
         return preparations.map(p => {
             const isPrepared = p.status.search('false') === -1;
             return (
@@ -54,9 +54,8 @@ const PreparationPanel = () => {
             </div>
             <PreparationModal
                 isOpen={isOpen}
-                recipeName={recipeData.name || "Recipe"}
+                recipeData={recipeData}
                 toggle={toggleModal}
-                items={recipeData.items || []}
                 preparation={currentPrep}
             />
         </div>

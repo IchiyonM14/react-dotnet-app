@@ -2,32 +2,33 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../checkbox';
 import Modal from '../modal';
+import { createPreparation, updatePreparation } from "../../services/preparations";
 
 const PreparationModal = props => {
-    const { isOpen, recipeName, toggle, items, preparation } = props;
+    const { isOpen, recipeData, toggle, preparation } = props;
     const [prepStatus, setPrepStatus] = useState({});
 
     useEffect(() => {
-        if(!preparation || !preparation.status) {
-            const newStatus = items.reduce((acc, i) => {
+        if (!preparation || !preparation.status) {
+            const newStatus = recipeData?.items?.reduce((acc, i) => {
                 return { ...acc, [i.name]: false }
             }, {});
-            
+
             setPrepStatus(newStatus);
         }
-    }, [items]);
+    }, [recipeData]);
 
-    useEffect(() => {        
-        if(preparation && preparation.status) {
+    useEffect(() => {
+        if (preparation && preparation.status) {
             //  Example value "{\"status1\":true,\"status2\":false}"
             const newStatus = JSON.parse(preparation.status);
-            
+
             setPrepStatus(newStatus);
         }
     }, [preparation]);
 
     const onClose = () => {
-        const newStatus = {...prepStatus};
+        const newStatus = { ...prepStatus };
 
         Object.keys(newStatus).forEach(item => {
             newStatus[item] = false;
@@ -35,7 +36,7 @@ const PreparationModal = props => {
 
         setPrepStatus(newStatus);
 
-        if(toggle && typeof toggle === 'function')
+        if (toggle && typeof toggle === 'function')
             toggle();
     }
 
@@ -44,14 +45,21 @@ const PreparationModal = props => {
         setPrepStatus((prev) => ({ ...prev, [name]: checked }));
     };
 
-    const onSave = () => {
+    const onSave = async () => {
         const data = JSON.stringify(prepStatus);
 
-        console.log(data);
+        if (preparation && preparation.status) {
+            await updatePreparation(preparation.id, { ...preparation, status: data });
+            onClose();
+            return;
+        }
+
+        await createPreparation({ RecipeId: recipeData.id, Status: data });
+        onClose();
     };
 
-    const renderIngredients = () => {        
-        if(prepStatus) {
+    const renderIngredients = () => {
+        if (prepStatus) {
             return Object.entries(prepStatus).map((itemStatus) => {
                 return (
                     <div className="PreparationPanel-recipe">
@@ -68,11 +76,11 @@ const PreparationModal = props => {
     };
 
     return (
-        <Modal            
+        <Modal
             isOpen={isOpen}
             onClose={onClose}
             onSave={onSave}
-            title={recipeName}
+            title={recipeData.name}
         >
             <span
                 className="d-block mb-4"
@@ -86,12 +94,16 @@ const PreparationModal = props => {
 };
 
 PreparationModal.defaultProps = {
-    recipeName: 'Recipe'    
+    recipeData: {
+        name: 'Recipe',
+        id: 0,
+        items: []
+    }
 };
 
 PreparationModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    recipeName: PropTypes.string,
+    recipeName: PropTypes.any,
     toggle: PropTypes.func.isRequired,
     status: PropTypes.string
 };
