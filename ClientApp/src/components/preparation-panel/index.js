@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { RecipesContext } from '../../contexts/recipes/RecipesContext';
+import { PreparationsContext } from '../../contexts/recipes/RecipesContext';
 import Button from '../button';
 import Checkbox from '../checkbox';
 import PreparationModal from '../preparation-modal';
 
-const PreparationPanel = props => {
+const PreparationPanel = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { list: recipes } = useContext(RecipesContext);
+    const { list: preparations, recipeData } = useContext(PreparationsContext);
 
     const toggleModal = () => {
         setIsOpen(prevIsOpen => {
@@ -14,12 +14,15 @@ const PreparationPanel = props => {
         });
     };
 
-    const renderRecipes = () => {
-        return recipes.map(recipe => {
+    const renderPreparations = () => {
+        if(preparations.length === 0 || !recipeData) return;
+        
+        return preparations.map(p => {
+            const isPrepared = p.status.search('false') !== -1;
             return (
                 <div className="PreparationPanel-recipe">
-                    <Checkbox checked={recipe.isPrepared} />
-                    <span>{`${recipe.name} - ${recipe.date}`}</span>
+                    <Checkbox checked={isPrepared} />
+                    <span>{`${recipeData.name}`}</span>
                 </div>
             );
         });
@@ -31,7 +34,7 @@ const PreparationPanel = props => {
                 <span className="PreparationPanel-title">
                     Preparations
                 </span>
-                {renderRecipes()}
+                {renderPreparations()}
             </div>
             <div>
                 <Button
@@ -43,8 +46,9 @@ const PreparationPanel = props => {
             </div>
             <PreparationModal
                 isOpen={isOpen}
-                recipeName="Guacamole"
+                recipeName={recipeData.name || "Recipe"}
                 toggle={toggleModal}
+                items={recipeData.items || []}
             />
         </div>
     );

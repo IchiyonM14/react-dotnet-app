@@ -1,29 +1,35 @@
 import React, { useState } from 'react';
 
-export const RecipesContext = React.createContext();
+export const PreparationsContext = React.createContext();
 
-export const RecipesProvider = ({ children }) => {
+export const PreparationsProvider = ({ children }) => {
+    const [recipeData, setRecipeData] = useState({});
     const [list, setList] = useState([]);
 
-    const setRecipes = (newReceipes) => {
-        setList(newReceipes);
+    const setPreparations = (newItems) => {
+        setList(newItems);
     }
 
-    const addRecipe = (recipe) => {
-        const newReceipes = [...list, recipe];
+    const addPreparation = (item) => {
+        const newItems = [...list, item];
+        setList(newItems);
+    };    
 
-        setList(newReceipes);
-    };
+    const setRecipe = (recipe) => {
+        setRecipeData(recipe);
+    }
 
     const context = {
         list,
-        setRecipes,
-        addRecipe
+        recipeData,
+        setRecipe,
+        setPreparations,
+        addPreparation
     };
 
     return (
-        <RecipesContext.Provider value={context}>
+        <PreparationsContext.Provider value={context}>
             {children}
-        </RecipesContext.Provider>
+        </PreparationsContext.Provider>
     );
 };

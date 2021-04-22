@@ -17,12 +17,12 @@ const CustomCheckbox = (props) => {
         }
     }
 
-    const handleChange = () => {
+    const handleChange = (e) => {
         if(onChange && typeof onChange === 'function') {
-            onChange({ name, checked: !isChecked });
+            onChange({ name, checked: e.target.checked });
         }
 
-        setIsChecked(!isChecked)
+        setIsChecked(e.target.checked)
     }
 
     return (

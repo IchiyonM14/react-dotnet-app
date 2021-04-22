@@ -1,37 +1,15 @@
 import React, { useContext, Fragment } from 'react';
-import { RecipesContext } from '../../contexts/recipes/RecipesContext';
+import { PreparationsContext } from '../../contexts/recipes/RecipesContext';
 import Button from "../button";
 import PropTypes from 'prop-types';
 
-const PREPARATIONS = [
-    {
-        name: 'Guacamole',
-        date: '19/04/2021',
-        isPrepared: false
-    },
-    {
-        name: 'Guacamole',
-        date: '12/04/2021',
-        isPrepared: false
-    },
-    {
-        name: 'Guacamole',
-        date: '30/03/2021',
-        isPrepared: true
-    },
-    {
-        name: 'Guacamole',
-        date: '24/03/2021',
-        isPrepared: false
-    },
-];
-
 const Recipe = (props) => {
-    const { name, notes, items } = props;
-    const recipesContext = useContext(RecipesContext);
+    const { id, name, notes, items, preparations } = props;
+    const preparationsContext = useContext(PreparationsContext);
 
     const showPreparations = () => {
-        recipesContext.setRecipes(PREPARATIONS);
+        preparationsContext.setRecipe({ id, name, items });
+        preparationsContext.setPreparations(preparations);
     };
 
     const renderItems = () => {
@@ -70,7 +48,8 @@ const Recipe = (props) => {
 
 Recipe.defaultProps = {
     isCompleted: true,
-    items: [{ id: 1, name: "Aguacate" }, { id: 2, name: "Cebolla" }, { id: 3, name: "Tomate" }]
+    items: [],
+    preparations: []
 }
 
 Recipe.propTypes = {

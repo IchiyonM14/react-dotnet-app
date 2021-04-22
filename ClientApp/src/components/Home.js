@@ -4,7 +4,7 @@ import Recipe from "./recipe";
 import AddRecipe from "./add-recipe";
 import Modal from "./modal";
 import Button from "./button";
-import { fetchRecipes } from "../services/recipes";
+import { fetchRecipes, createRecipe } from "../services/recipes";
 import PreparationPanel from '../components/preparation-panel';
 
 const Home = () => {
@@ -15,12 +15,14 @@ const Home = () => {
     const [recipeNotes, setRecipeNotes] = useState('');
     const formClasses = 'form-control mb-3';
 
-    useEffect(() => {
-        const loadRecipes = async () => {
-            const data = await fetchRecipes();
+    const loadRecipes = async () => {
+        const { data } = await fetchRecipes();
+        if(data) {
             setRecipes(data);
         }
+    }
 
+    useEffect(() => {
         loadRecipes();
     }, []);
 
@@ -48,9 +50,20 @@ const Home = () => {
                     name={r.name}
                     notes={r.description}
                     items={r.items}
+                    preparations={r.preparations}
                 />
             )
         });
+    }
+
+    const saveRecipe = async () => {
+        if(!recipeName || !recipeNotes) return;
+
+        const { error } = await createRecipe({ Name: recipeName, Description: recipeNotes });
+        
+        if(!error) {
+            loadRecipes();
+        }
     }
 
     return (
@@ -68,6 +81,7 @@ const Home = () => {
                 title="Recipe:"
                 isOpen={isOpen}
                 onClose={toggleModal}
+                onSave={saveRecipe}
             >
                 <label
                     className="mb-0"

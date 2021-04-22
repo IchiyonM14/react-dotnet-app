@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Button from "../button";
 
 const CustomModal = (props) => {
-    const { title, onClose, children, hasFooter, isOpen } = props;
+    const { title, onClose, children, hasFooter, isOpen, onSave } = props;
     const [modal, setModal] = useState(isOpen);
 
     useEffect(() => {
@@ -20,6 +20,10 @@ const CustomModal = (props) => {
     }
 
     const handleSaveClick = () => {
+        if(onSave && typeof onSave === 'function') {
+            onSave();
+        }
+
         toggle();
     }
 
@@ -46,6 +50,7 @@ const CustomModal = (props) => {
 CustomModal.propTypes = {
     title: PropTypes.string.isRequired,
     onClose: PropTypes.func,
+    onSave: PropTypes.func,
     children: PropTypes.any.isRequired,
     hasFooter: PropTypes.bool,
     isOpen: PropTypes.bool.isRequired
@@ -53,6 +58,7 @@ CustomModal.propTypes = {
 
 CustomModal.defaultProps = {
     onClose: () => { },
+    onSave: () => { },
     hasFooter: true,
     isOpen: false
 }

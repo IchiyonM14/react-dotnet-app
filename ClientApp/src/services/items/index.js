@@ -1,20 +1,20 @@
 import { fetchData } from "../axios";
 
-export const fetchRecipes = async () => {
+export const fetchItems = async () => {
     try {
-        const { data } = await fetchData({ url: '/recipes' });
+        const { data } = await fetchData({ url: '/items' });
         return { data };
     } catch (error) {
         return { error }
     }   
 }
 
-export const createRecipe = async (newRecipe) => {
+export const createItems = async (newItems) => {
     try {
         const { data } = await fetchData({
             method: 'POST',
-            url: '/recipes',
-            data: {...newRecipe}
+            url: '/items',
+            data: { data: newItems }
         });
 
         return { data };

@@ -85,7 +85,7 @@ namespace RecipesProject.Controllers
         {
             string email = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
 
-            var user = await _userManager.FindByEmailAsync(email);
+            // var user = await _userManager.FindByEmailAsync(email);
             _context.Recipe.Add(recipe);
             await _context.SaveChangesAsync();
 
