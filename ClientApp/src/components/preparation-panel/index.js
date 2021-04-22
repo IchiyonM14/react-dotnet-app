@@ -61,7 +61,7 @@ const PreparationPanel = (props) => {
                     className="primary"
                     onClick={toggleModal}
                 >
-                    New
+                    Cook it!
                 </Button>
             </div>
             <PreparationModal
