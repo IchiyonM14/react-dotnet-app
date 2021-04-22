@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import Recipe from "./recipe";
 import AddRecipe from "./add-recipe";
+import { Alert } from 'reactstrap';
 import Modal from "./modal";
 import Button from "./button";
 import { fetchRecipes, createRecipe } from "../services/recipes";
 import PreparationPanel from '../components/preparation-panel';
 
 const Home = () => {
-    const [recipes, setRecipes] = useState([])
+    const [recipes, setRecipes] = useState([]);
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [ingredients, setIngredients] = useState([{}]);
     const [recipeName, setRecipeName] = useState('');
@@ -32,6 +35,15 @@ const Home = () => {
         });
     };
 
+    const toggleErrorMessage = () => {
+        const message = !showError
+            ? 'There was an error trying to delete the recipe'
+            : '';
+
+        setErrorMessage(message);
+        setShowError(prevShowError => ( !prevShowError ));
+    };
+
     const handleMultiselectChange = (newValue) => {
         setIngredients(newValue);
     }
@@ -52,6 +64,7 @@ const Home = () => {
                     items={r.items}
                     preparations={r.preparations}
                     reload={loadRecipes}
+                    showErrorMessage={toggleErrorMessage}
                 />
             )
         });
@@ -73,6 +86,13 @@ const Home = () => {
                 <h1>Your Recipes:</h1>
                 <Button className="primary" onClick={toggleModal}>Add Recipe</Button>
             </div>
+            <Alert
+                color="danger"
+                isOpen={showError}
+                toggle={toggleErrorMessage}
+            >
+                {errorMessage}
+            </Alert>
             <div className="Home-recipes">
                 {renderRecipes()}
             </div>

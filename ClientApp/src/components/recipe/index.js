@@ -1,11 +1,19 @@
 import React, { useContext, Fragment } from 'react';
 import { PreparationsContext } from '../../contexts/recipes/RecipesContext';
 import { deleteRecipe } from '../../services/recipes';
-import Button from "../button";
+import Button from '../button';
 import PropTypes from 'prop-types';
 
 const Recipe = (props) => {
-    const { id, name, notes, items, preparations, reload } = props;
+    const {
+        id,
+        name,
+        notes, 
+        items,
+        preparations,
+        reload,
+        showErrorMessage
+    } = props;
     const preparationsContext = useContext(PreparationsContext);
 
     const showPreparations = () => {
@@ -18,6 +26,8 @@ const Recipe = (props) => {
 
         if(!error)
             reload();
+        else
+            showErrorMessage();
     };
 
     const renderItems = () => {
@@ -62,14 +72,16 @@ const Recipe = (props) => {
 Recipe.defaultProps = {
     isCompleted: true,
     items: [],
-    preparations: []
+    preparations: [],
+    showErrorMessage: () => {}
 }
 
 Recipe.propTypes = {
     name: PropTypes.string.isRequired,
     notes: PropTypes.string,
     isCompleted: PropTypes.bool.isRequired,
-    reload: PropTypes.func.isRequired
+    reload: PropTypes.func.isRequired,
+    showErrorMessage: PropTypes.func
 }
 
 export default Recipe;
