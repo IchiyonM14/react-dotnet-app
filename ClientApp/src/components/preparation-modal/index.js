@@ -20,9 +20,7 @@ const PreparationModal = props => {
 
     useEffect(() => {
         if (preparation && preparation.status) {
-            //  Example value "{\"status1\":true,\"status2\":false}"
             const newStatus = JSON.parse(preparation.status);
-
             setPrepStatus(newStatus);
         }
     }, [preparation]);
@@ -51,11 +49,9 @@ const PreparationModal = props => {
         if (preparation && preparation.status) {
             await updatePreparation(preparation.id, { ...preparation, status: data });
             await reloadData(recipeData.id);
-            onClose();
         } else {
             await createPreparation({ RecipeId: recipeData.id, Status: data });
             await reloadData(recipeData.id);
-            onClose();
         }
     };
 
