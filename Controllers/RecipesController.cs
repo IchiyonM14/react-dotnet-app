@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipesProject.Data;
@@ -12,9 +14,11 @@ namespace RecipesProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RecipesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public RecipesController(ApplicationDbContext context)
         {
@@ -25,9 +29,7 @@ namespace RecipesProject.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipe()
         {
-            var ttt = await _context.Recipe.Include(r => r.Items).ToListAsync();
-            Console.WriteLine(ttt);
-            return ttt;
+            return await _context.Recipe.Include(r => r.Items).Include(r => r.Preparations).ToListAsync();
         }
 
         // GET: api/Recipes/5
@@ -78,8 +80,12 @@ namespace RecipesProject.Controllers
         // POST: api/Recipes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
         {
+            string email = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+
+            var user = await _userManager.FindByEmailAsync(email);
             _context.Recipe.Add(recipe);
             await _context.SaveChangesAsync();
 

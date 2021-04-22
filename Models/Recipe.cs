@@ -20,5 +20,6 @@ namespace RecipesProject.Models
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
         public virtual ICollection<Item> Items { get; set; }
+        public virtual ICollection<Preparation> Preparations { get; set; }
     }
 }

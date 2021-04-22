@@ -9,7 +9,5 @@ namespace RecipesProject.Models
         public int Id { get; set; }
         public int RecipeId { get; set; }
         public string Status { get; set; }
-        [ForeignKey("RecipeId")]
-        public virtual Recipe Recipe { get; set; }
     }
 }
