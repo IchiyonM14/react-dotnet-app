@@ -21,13 +21,33 @@ const PreparationModal = props => {
         if(preparation && preparation.status) {
             //  Example value "{\"status1\":true,\"status2\":false}"
             const newStatus = JSON.parse(preparation.status);
+            
             setPrepStatus(newStatus);
         }
-    }, [preparation])
+    }, [preparation]);
+
+    const onClose = () => {
+        const newStatus = {...prepStatus};
+
+        Object.keys(newStatus).forEach(item => {
+            newStatus[item] = false;
+        });
+
+        setPrepStatus(newStatus);
+
+        if(toggle && typeof toggle === 'function')
+            toggle();
+    }
 
     const onCheckIngredient = (info) => {
         const { name, checked } = info;
         setPrepStatus((prev) => ({ ...prev, [name]: checked }));
+    };
+
+    const onSave = () => {
+        const data = JSON.stringify(prepStatus);
+
+        console.log(data);
     };
 
     const renderIngredients = () => {        
@@ -50,7 +70,8 @@ const PreparationModal = props => {
     return (
         <Modal            
             isOpen={isOpen}
-            onClose={toggle}
+            onClose={onClose}
+            onSave={onSave}
             title={recipeName}
         >
             <span
