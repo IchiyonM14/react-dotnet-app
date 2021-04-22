@@ -12,8 +12,21 @@
   top: 0;
   width: 300px;
   z-index: 900;
+  transition: right 0.5s ease;
   &.hidden{
     right: -300px;
+  }
+
+  &-close{
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    font-size: 28px; 
+    outline: none;
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+    top: 0;
   }
 
   &-list {

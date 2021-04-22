@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { PreparationsContext } from '../../contexts/recipes/RecipesContext';
 import Button from '../button';
 import Checkbox from '../checkbox';
@@ -8,6 +8,7 @@ const PreparationPanel = (props) => {
     const { reloadData } = props;
 
     const [isOpen, setIsOpen] = useState(false);
+    const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [currentPrep, setCurrentPrep] = useState();
     const { list: preparations, recipeData } = useContext(PreparationsContext);
 
@@ -25,6 +26,14 @@ const PreparationPanel = (props) => {
         });
     }
 
+    useEffect(() => {
+        if (recipeData.id) {
+            setIsPanelOpen(true);
+        }
+    }, [recipeData]);
+
+    const closePanel = () => setIsPanelOpen(false);
+
     const renderPreparations = () => {
         if (preparations.length === 0 || !recipeData) return;
 
@@ -39,7 +48,8 @@ const PreparationPanel = (props) => {
     };
 
     return (
-        <div className={`collapse show PreparationPanel ${!!recipeData ? '' : 'hidden'}`}>
+        <div className={`collapse show PreparationPanel ${!isPanelOpen ? 'hidden' : ''}`}>
+            <button className="PreparationPanel-close" onClick={closePanel}>&times;</button>
             <div className="PreparationPanel-list">
                 <span className="PreparationPanel-title">
                     Preparations
