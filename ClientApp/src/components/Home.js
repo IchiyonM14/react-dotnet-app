@@ -5,6 +5,7 @@ import AddRecipe from "./add-recipe";
 import Modal from "./modal";
 import Button from "./button";
 import { fetchRecipes } from "../services/recipes";
+import PreparationPanel from '../components/preparation-panel';
 
 const Home = () => {
     const [recipes, setRecipes] = useState([])
@@ -62,6 +63,7 @@ const Home = () => {
                 {renderRecipes()}
             </div>
             <AddRecipe onClick={toggleModal} />
+            <PreparationPanel />
             <Modal
                 title="Recipe:"
                 isOpen={isOpen}
