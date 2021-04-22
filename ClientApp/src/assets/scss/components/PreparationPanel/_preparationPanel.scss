@@ -34,4 +34,22 @@
     padding: 10px;
     width: 100%;
   }
+  &-prep {
+    align-items: center;
+    border: none;
+    border-bottom: 1px solid $gray-border;
+    box-shadow: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    outline: none;
+    padding: 10px;
+    width: 100%;
+    @include pointer-events {
+      border: none;
+      border-bottom: 1px solid $gray-border;
+      box-shadow: none;
+      outline: none;
+    }
+  }
 }

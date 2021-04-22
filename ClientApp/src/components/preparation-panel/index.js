@@ -6,6 +6,7 @@ import PreparationModal from '../preparation-modal';
 
 const PreparationPanel = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [currentPrep, setCurrentPrep] = useState();
     const { list: preparations, recipeData } = useContext(PreparationsContext);
 
     const toggleModal = () => {
@@ -20,10 +21,9 @@ const PreparationPanel = () => {
         return preparations.map(p => {
             const isPrepared = p.status.search('false') !== -1;
             return (
-                <div className="PreparationPanel-recipe">
-                    <Checkbox checked={isPrepared} />
-                    <span>{`${recipeData.name}`}</span>
-                </div>
+                <button className="PreparationPanel-prep">
+                    <Checkbox ignoreEvents checked={isPrepared} label={recipeData.name} />
+                </button>
             );
         });
     };

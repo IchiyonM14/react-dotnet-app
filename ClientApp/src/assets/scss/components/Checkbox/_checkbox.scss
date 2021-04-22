@@ -3,6 +3,9 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  &.ignore-events {
+    pointer-events: none;
+  }
   &-icon {
     border: 1px solid $gray-text;
     border-radius: 50%;

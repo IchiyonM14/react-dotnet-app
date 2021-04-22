@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
 const CustomCheckbox = (props) => {
-    const { onChange, checked, label, name } = props;
+    const { onChange, checked, label, name, ignoreEvents } = props;
     const [isChecked, setIsChecked] = useState(checked);
     const [uniqueId] = useState(uuidv4());
 
@@ -26,7 +26,7 @@ const CustomCheckbox = (props) => {
     }
 
     return (
-        <span className="Checkbox">
+        <span className={`Checkbox ${ignoreEvents && 'ignore-events'}`}>
             <span className="Checkbox-icon">
                 { renderCheck() }
             </span>
@@ -37,14 +37,16 @@ const CustomCheckbox = (props) => {
 }
 
 CustomCheckbox.defaultProps = {
-    checked: false
+    checked: false,
+    ignoreEvents: false
 }
 
 CustomCheckbox.propTypes = {
     onChange: PropTypes.func,
     checked: PropTypes.bool,
     label: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    ignoreEvents: PropTypes.bool
 }
 
 export default CustomCheckbox;
