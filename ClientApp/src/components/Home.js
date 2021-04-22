@@ -51,6 +51,7 @@ const Home = () => {
                     notes={r.description}
                     items={r.items}
                     preparations={r.preparations}
+                    reload={loadRecipes}
                 />
             )
         });

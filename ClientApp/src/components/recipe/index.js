@@ -1,15 +1,23 @@
 import React, { useContext, Fragment } from 'react';
 import { PreparationsContext } from '../../contexts/recipes/RecipesContext';
+import { deleteRecipe } from '../../services/recipes';
 import Button from "../button";
 import PropTypes from 'prop-types';
 
 const Recipe = (props) => {
-    const { id, name, notes, items, preparations } = props;
+    const { id, name, notes, items, preparations, reload } = props;
     const preparationsContext = useContext(PreparationsContext);
 
     const showPreparations = () => {
         preparationsContext.setRecipe({ id, name, items });
         preparationsContext.setPreparations(preparations);
+    };
+
+    const onDelete = recipeId => async () => {
+        const { error } = await deleteRecipe(recipeId);
+
+        if(!error)
+            reload();
     };
 
     const renderItems = () => {
@@ -30,7 +38,12 @@ const Recipe = (props) => {
 
     return (
         <div className="Recipe">
-            <button className="Recipe-delete"><i class="far fa-times-circle"></i></button>
+            <button
+                className="Recipe-delete"
+                onClick={onDelete(id)}
+            >
+                <i class="far fa-times-circle" />
+            </button>
             <p className="Recipe-name">{name}</p>
             <p className="Recipe-notes">{notes}</p>
             { renderItems()}
@@ -55,7 +68,8 @@ Recipe.defaultProps = {
 Recipe.propTypes = {
     name: PropTypes.string.isRequired,
     notes: PropTypes.string,
-    isCompleted: PropTypes.bool.isRequired
+    isCompleted: PropTypes.bool.isRequired,
+    reload: PropTypes.func.isRequired
 }
 
 export default Recipe;
