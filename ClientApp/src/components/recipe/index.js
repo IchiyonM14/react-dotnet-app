@@ -1,15 +1,33 @@
 import React, { useContext, Fragment } from 'react';
 import { PreparationsContext } from '../../contexts/recipes/RecipesContext';
-import Button from "../button";
+import { deleteRecipe } from '../../services/recipes';
+import Button from '../button';
 import PropTypes from 'prop-types';
 
 const Recipe = (props) => {
-    const { id, name, notes, items, preparations } = props;
+    const {
+        id,
+        name,
+        notes, 
+        items,
+        preparations,
+        reload,
+        showErrorMessage
+    } = props;
     const preparationsContext = useContext(PreparationsContext);
 
     const showPreparations = () => {
         preparationsContext.setRecipe({ id, name, items });
         preparationsContext.setPreparations(preparations);
+    };
+
+    const onDelete = recipeId => async () => {
+        const { error } = await deleteRecipe(recipeId);
+
+        if(!error)
+            reload();
+        else
+            showErrorMessage();
     };
 
     const renderItems = () => {
@@ -30,7 +48,12 @@ const Recipe = (props) => {
 
     return (
         <div className="Recipe">
-            <button className="Recipe-delete"><i class="far fa-times-circle"></i></button>
+            <button
+                className="Recipe-delete"
+                onClick={onDelete(id)}
+            >
+                <i class="far fa-times-circle" />
+            </button>
             <p className="Recipe-name">{name}</p>
             <p className="Recipe-notes">{notes}</p>
             { renderItems()}
@@ -49,13 +72,16 @@ const Recipe = (props) => {
 Recipe.defaultProps = {
     isCompleted: true,
     items: [],
-    preparations: []
+    preparations: [],
+    showErrorMessage: () => {}
 }
 
 Recipe.propTypes = {
     name: PropTypes.string.isRequired,
     notes: PropTypes.string,
-    isCompleted: PropTypes.bool.isRequired
+    isCompleted: PropTypes.bool.isRequired,
+    reload: PropTypes.func.isRequired,
+    showErrorMessage: PropTypes.func
 }
 
 export default Recipe;
